@@ -1,0 +1,82 @@
+.is_clickable {
+    cursor: hand;
+    cursor: pointer
+}
+
+.nstSlider {
+    cursor: hand;
+    cursor: pointer;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    position: relative;
+    width: 12vw;
+    height: 20px;
+    background: #134;
+    margin:0 auto;
+}
+
+.nstSlider .leftGrip.gripHighlighted {
+    /*background: #134*/
+}
+
+.nstSlider .rightGrip.gripHighlighted {
+    /*background: #134*/
+}
+
+.nstSlider .rightGrip, .nstSlider .leftGrip {
+    position: absolute;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 40px;
+    /*padding-top: 10px;*/
+    margin-top: 5px;
+    background: #fff;
+    transform: translateY(-25%);
+    -webkit-transform: translateY(-25%);
+    box-shadow: 0 0 2px  #000;
+}
+
+.leftLabel {
+    position: absolute;
+    left: -40px;
+    top: -2.5px;
+}
+
+.rightLabel {
+    position: absolute;
+    right: -45px;
+    top: -2.5px;
+}
+
+.nstSlider .rightGrip, .nstSlider .leftGrip:focus{
+    outline: 0;
+}
+
+.nstSlider .bar {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    position: absolute;
+    background: #fff;
+    height: 8px;
+    top: 6px
+}
+
+.nstSlider .highlightPanel {
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -ms-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    position: absolute;
+    background: #e87722;
+    height: 20px;
+    top: 0
+}

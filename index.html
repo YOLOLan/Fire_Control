@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="renderer" content="webkit">
+	<title>FireControl</title>
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.nstSlider.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-labelauty.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/iconfont.css">
+</head>
+
+<body>
+
+	<div class="left-nav flex">
+		<div class="title flex flex-column">
+			<h1>FireControl</h1>
+			<small>楼宇消防控制系统</small>
+		</div>
+		<ul class="top-nav">
+			<li id="homeLi" class="active"><a href="#/home/main"><i class="iconfont">&#xe655;</i>运营首页</a></li>
+			<li id="setLi"><a href="#/set/IDKEY"><i class="iconfont">&#xe603;</i>更多信息</a></li>
+		</ul>
+	</div>
+
+	<div class="wrap">
+		<div class="content" id="home">
+			<ul class="side-nav">
+				<li id="mainLi"><a href="#/home/main">主页</a></li>
+			</ul>
+			<div class="main container-fluid" id="home/main">
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="panel panel-default panel-height">
+							<div class="panel-heading">温度<span class="float-right text-red online_Sensor_A">离线</span></div>
+							<div class="panel-body text-center">
+								<div id="temp" class="chartBlock">温度</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="panel panel-default panel-height">
+							<div class="panel-heading">空气质量<span class="float-right text-red online_Sensor_A">离线</span>
+							</div>
+							<div class="panel-body text-center">
+								<div id="pm" class="chartBlock">空气质量</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="panel panel-default panel-height">
+							<div class="panel-heading">火焰<span class="float-right text-red online_Sensor_C">离线</span></div>
+							<div class="panel-body text-center">
+								<div class="sensorStatus sensor-fire" id="fireStatus"></div>
+								<p id="fire-text">正常</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="panel panel-default panel-timer panel-height">
+							<div class="panel-heading">喷淋系统<span class="float-right text-red online_Sensor_B">离线</span></div>
+							<div class="panel-body text-center">
+								<div class="doorImg"><img id="sprayImg" src="img/spray.png" alt="" /></div>
+								<button id="sprayStatus" type="button" class="btn btn-primary btn-block">已关闭</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="panel panel-default panel-timer panel-height">
+							<div class="panel-heading">灾情提示<span class="float-right text-red online_Sensor_B">离线</span></div>
+							<div class="panel-body text-center">
+								<div class="alarmImg"><img id="alarmImg" class="alarm-img alarm-activ"
+										src="img/alarm.png" alt="" /></div>
+								<button id="alarmStatus" type="button" class="btn btn-primary btn-block">已关闭</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="panel panel-default panel-height">
+							<div class="panel-heading">阈值设置</div>
+							<div class="panel-body">
+								<p class="nstp">空气质量阈值</p>
+								<div class="nstSlider nst-disabled" id="nstSliderS" data-range_min="0"
+									data-range_max="200" data-cur_min="200" data-cur_max="0">
+									<div class="bar" id="barS"></div>
+									<div class="leftGrip" id="leftGripS"></div>
+									<div class="leftLabel nstSlider-val" id="leftLabelS"></div>
+									<div class="rightLabel nstSlider-val" id="rightLabelS"></div>
+								</div>
+								<p class="nstp">温度阈值</p>
+								<div class="nstSlider nst-disabled" id="nstSliderS2" data-range_min="0"
+									data-range_max="100" data-cur_min="200" data-cur_max="0">
+									<div class="bar" id="barS2"></div>
+									<div class="leftGrip" id="leftGripS2"></div>
+									<div class="leftLabel nstSlider-val" id="leftLabelS2"></div>
+									<div class="rightLabel nstSlider-val" id="rightLabelS2"></div>
+								</div>
+								<div class="mode-text" style="padding: 5px;">
+									<span id="mode-txt-3" ><b>设置上限</b>：超出阈值将开启警报。</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+						<div class="panel panel-default panel-height">
+							<div class="panel-heading">模式切换</div>
+							<div class="panel-body">
+								<ul class="dowebok flex" id="mode-switch">
+									<li>
+										<input class="labelauty" type="radio" name="radio" data-labelauty="自动模式"
+											id="labelauty-112" style="display: none;" value="auto-mode">
+										<label for="labelauty-112">
+											<span class="labelauty-unchecked-image"></span>
+											<span class="labelauty-unchecked">自动模式</span>
+											<span class="labelauty-checked-image"></span>
+											<span class="labelauty-checked">自动模式</span>
+										</label>
+									</li>
+									<li>
+										<input class="labelauty" type="radio" name="radio" data-labelauty="手动模式"
+											id="labelauty-122" checked style="display: none;" value="manual-mode">
+										<label for="labelauty-122">
+											<span class="labelauty-unchecked-image"></span>
+											<span class="labelauty-unchecked">手动模式</span>
+											<span class="labelauty-checked-image"></span>
+											<span class="labelauty-checked">手动模式</span>
+										</label>
+									</li>
+								</ul>
+								<div class="mode-text mode-right" id="mode-text">
+									<span id="mode-txt-1" class="hidden"></span><b>自动模式</b>：超出温度和空气质量阀值将自动报警</span>
+									<span id="mode-txt-2"><b>手动模式</b>：通过界面控制</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content" id="set">
+			<ul class="side-nav">
+				<li id="IDKEYLi"><a href="#/set/IDKEY">IDKey</a></li>
+				<li id="MACLi"><a href="#/set/MAC">MAC设置</a></li>
+				<li id="aboutLi"><a href="#/set/about">版本信息</a></li>
+			</ul>
+			<div class="main container-fluid" id="set/IDKEY">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="panel panel-default IDKEY">
+							<div class="panel-heading">IDKey</div>
+							<div class="panel-body">
+								<div class="form-horizontal">
+									<div class="form-group">
+										<label class="col-md-3 col-sm-2 control-label">ID</label>
+										<div class="col-md-6 col-sm-9">
+											<input id="id" type="text" class="form-control" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 col-sm-2 control-label">KEY</label>
+										<div class="col-md-6 col-sm-9">
+											<input id="key" type="text" class="form-control" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 col-sm-2 control-label">SERVER</label>
+										<div class="col-md-6 col-sm-9">
+											<input id="server" type="text" class="form-control" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-offset-3 col-sm-offset-2 col-md-2 col-sm-3 col-xs-6">
+											<button id="idkeyInput" class="btn btn-primary btn-block">确认</button>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+											<button type="button" class="btn btn-primary btn-block scan"
+												id="id_scan">扫描</button>
+											<!--用于android版扫描获取id key，web版无效-->
+										</div>
+										<div class="col-md-2 col-sm-3 col-xs-6">
+											<button type="button" class="btn btn-warning btn-block share" id="idShare"
+												data-toggle="modal" data-target="#qrModal">分享</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main container-fluid" id="set/MAC">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="panel panel-default MAC">
+							<div class="panel-heading">MAC设置</div>
+							<div class="panel-body">
+								<div class="form-horizontal">
+									<div class="form-group">
+										<label class="col-md-3 col-sm-2 control-label">Sensor_A</label>
+										<div class="col-md-6 col-sm-9">
+											<input id="Sensor_A" type="text" class="form-control" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 col-sm-2 control-label">Sensor_B</label>
+										<div class="col-md-6 col-sm-9">
+											<input id="Sensor_B" type="text" class="form-control" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 col-sm-2 control-label">Sensor_C</label>
+										<div class="col-md-6 col-sm-9">
+											<input id="Sensor_C" type="text" class="form-control" value="">
+										</div>
+									</div>
+									<!-- 底部按钮 -->
+									<div class="form-group">
+										<div class="col-md-offset-3 col-sm-offset-2 col-md-2 col-sm-3 col-xs-12">
+											<button id="macInput" class="btn btn-primary btn-block">确认</button>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+											<button type="button" class="btn btn-primary btn-block scan"
+												id="mac_scan">扫描</button>
+											<!--用于android版扫描获取MAC，web版无效-->
+										</div>
+										<div class="col-md-2 col-sm-3 col-xs-12">
+											<button type="button" class="btn btn-warning btn-block share" id="macShare"
+												data-toggle="modal" data-target="#qrModal">分享</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main container-fluid" id="set/about">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">版本信息</div>
+							<div class="panel-body down-body">
+								<div class="show-download" data-toggle="modal" data-target="#downloadModal">查看下载二维码
+								</div>
+								<p class="text-center">当前版本：<span class="currentVersion text-red"></span></p>
+								<div class="form-group">
+									<div
+										class="col-lg-offset-5 col-md-offset-4 col-sm-offset-4 col-lg-2 col-md-4 col-sm-4 col-xs-6">
+										<button id="setUp" type="button" class="btn btn-danger btn-block">版本升级</button>
+									</div>
+								</div>
+								<div class="form-group">
+									<div
+										class="col-lg-offset-5 col-md-offset-4 col-sm-offset-4 col-lg-2 col-md-4 col-sm-4">
+										<button type="button" class="btn btn-info btn-block" id="showUpdateTxt"
+											data-toggle="collapse" data-target="#updateTxt">查看升级日志</button>
+									</div>
+								</div>
+								<div id="updateTxt" class="collapse text-center">
+									<div class="version-list"></div>
+									<button class="btn btn-default" id="clear">清除localStorage</button><br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--模态框：二维码窗口-->
+	<div class="modal fade qrModal" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="qr-txt text-center">请在同款软件的 <br />“更多信息”-“<span id="shareModalTitle">对应</span>”窗口
+						<br />点击“扫描”</div>
+					<div class="qr-div text-center">
+						<div id="qrDiv"></div>
+					</div>
+					<div class="qr-txt2">注：仅限于分享ID、KEY和MAC地址</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--模态框：下载二维码窗口-->
+	<div class="modal fade qrModal" id="downloadModal" tabindex="-1" role="dialog" aria- labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div id="qrDownload" class="text-center"></div>
+					<div class="qr-txt text-center">扫描下载APP</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--延时弹出小框-->
+	<div id="toast">
+		<span id="toast_txt">
+		</span>
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/WSN/WSNRTConnect.js"></script>
+	<script src="js/charts/fusioncharts/fusioncharts.js"></script>
+	<script src="js/charts/fusioncharts/fusioncharts.widgets.js"></script>
+	<script src="js/charts/fusioncharts/themes/fusioncharts.theme.fint.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/director.min.js"></script>
+	<script src="js/jquery.nstSlider.min.js"></script>
+	<script src="js/jquery-labelauty.js"></script>
+	<script src="js/qrcode.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/version.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/chart.js"></script>
+</body>
+
+</html>
